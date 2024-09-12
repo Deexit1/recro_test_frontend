@@ -87,6 +87,7 @@ export default function LoginPage() {
                             Register here
                         </Link>
                     </p>
+                    <p>Use: deexitpatel4@gmail.com: Deexit@123</p>
                 </CardFooter>
             </Card>
         </div>

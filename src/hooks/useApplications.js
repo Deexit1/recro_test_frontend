@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosInstance from '../utils/axiosInstance';
+import Cookies from 'js-cookie';
 
 // Fetch all applications
 export const useApplications = () => {
