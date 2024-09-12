@@ -63,8 +63,8 @@ export default function Dashboard() {
                             <Users className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stats.totalCandidates.count}</div>
-                            <p className="text-xs text-muted-foreground">{stats.totalCandidates.percentageDifference}% from last month</p>
+                            <div className="text-2xl font-bold">{stats.totalCandidates?.count}</div>
+                            <p className="text-xs text-muted-foreground">{stats.totalCandidates?.percentageDifference}% from last month</p>
                         </CardContent>
                     </Card>
                     <Card>

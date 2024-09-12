@@ -6,7 +6,11 @@ export const useApplications = () => {
     return useQuery({
         queryKey: ['applications'],
         queryFn: async () => {
-            const { data } = await axiosInstance.get('/applications');
+            const { data } = await axiosInstance.get('/applications', {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('token')}`
+                }
+            });
             return data;
         }
     });
@@ -15,7 +19,11 @@ export const useApplications = () => {
 // Fetch a single application by ID
 export const useApplication = (id) => {
     return useQuery(['application', id], async () => {
-        const { data } = await axiosInstance.get(`/applications/${id}`);
+        const { data } = await axiosInstance.get(`/applications/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+        });
         return data;
     }, {
         enabled: !!id,
@@ -27,7 +35,11 @@ export const useAddApplication = () => {
     const queryClient = useQueryClient();
 
     return useMutation(async (newApplication) => {
-        const { data } = await axiosInstance.post('/applications', newApplication);
+        const { data } = await axiosInstance.post('/applications', newApplication, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+        });
         return data;
     }, {
         onSuccess: () => {
@@ -41,7 +53,11 @@ export const useUpdateApplication = () => {
     const queryClient = useQueryClient();
 
     return useMutation(async ({ id, updatedApplication }) => {
-        const { data } = await axiosInstance.put(`/applications/${id}`, updatedApplication);
+        const { data } = await axiosInstance.put(`/applications/${id}`, updatedApplication, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+        });
         return data;
     }, {
         onSuccess: () => {
@@ -56,7 +72,11 @@ export const useDeleteApplication = () => {
     const queryClient = useQueryClient();
 
     return useMutation(async (id) => {
-        await axiosInstance.delete(`/applications/${id}`);
+        await axiosInstance.delete(`/applications/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+        });
     }, {
         onSuccess: () => {
             queryClient.invalidateQueries(['applications']);

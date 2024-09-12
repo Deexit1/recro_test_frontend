@@ -1,11 +1,16 @@
 import { axiosInstance } from '@/lib/utils';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
 
 // Fetch all candidates
 export const useCandidates = () => {
     return useQuery({
         queryKey: ['candidates'], queryFn: async () => {
-            const { data } = await axiosInstance.get('/candidates');
+            const { data } = await axiosInstance.get('/candidates', {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('token')}`
+                }
+            });
             return data;
         }
     });
@@ -15,7 +20,11 @@ export const useCandidates = () => {
 export const useCandidate = (id) => {
     return useQuery({
         queryKey: ['candidate', id], queryFn: async () => {
-            const { data } = await axiosInstance.get(`/candidates/${id}`);
+            const { data } = await axiosInstance.get(`/candidates/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('token')}`
+                }
+            });
             return data;
         },
         enabled: !!id,  // Query only runs if `id` is provided
@@ -28,7 +37,11 @@ export const useAddCandidate = () => {
 
     return useMutation({
         mutationFn: async (newCandidate) => {
-            const { data } = await axiosInstance.post('/candidates', newCandidate);
+            const { data } = await axiosInstance.post('/candidates', newCandidate, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('token')}`
+                }
+            });
             return data;
         },
         onSuccess: () => {
@@ -43,7 +56,11 @@ export const useUpdateCandidate = () => {
 
     return useMutation({
         mutationFn: async ({ id, updatedCandidate }) => {
-            const { data } = await axiosInstance.put(`/candidates/${id}`, updatedCandidate);
+            const { data } = await axiosInstance.put(`/candidates/${id}`, updatedCandidate, {
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('token')}`
+                }
+            });
             return data;
         },
         onSuccess: () => {
@@ -58,7 +75,11 @@ export const useDeleteCandidate = () => {
     const queryClient = useQueryClient();
 
     return useMutation(async (id) => {
-        await axiosInstance.delete(`/candidates/${id}`);
+        await axiosInstance.delete(`/candidates/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            }
+        });
     }, {
         onSuccess: () => {
             queryClient.invalidateQueries(['candidates']);
